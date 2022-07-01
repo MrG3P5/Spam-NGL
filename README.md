@@ -12,7 +12,7 @@
 
 ```bash
 > apt update && apt upgrade -y
-> pkg install python3 git -y
+> pkg install python3 git libxml2 libxslt -y
 > git clone https://github.com/MrG3P5/Spam-NGL
 > cd Spam-NGL
 > pip3 install -r require.txt
