@@ -21,7 +21,7 @@ red = Fore.LIGHTRED_EX
 white = Fore.WHITE
 green = Fore.LIGHTGREEN_EX
 yellow = Fore.LIGHTYELLOW_EX
-CHUNK_PARRENT = 1
+CHUNK_PARRENT = 0
 
 with open(__dir__ / "config.json") as f:
     con = load(f)
@@ -84,7 +84,7 @@ def banner(str):
 def generateDeviceID():
     string = "qwertyuiopasdfghjklzxcvbnm1234567890"
     random_str = "".join(random.sample(string, 8))
-    return random_str + "-6cfe-4156-ae34-268fadf064a3"
+    return random_str + "-f7d8-4ee2-b6e1-5d0fb2bb88d3"
 
 class SpamNGL:
 
@@ -98,34 +98,47 @@ class SpamNGL:
     @staticmethod
     def start(username, total_spam: int, message):
         global CHUNK_PARRENT
-        while CHUNK_PARRENT <= total_spam:
-            try:
-                randomProxies = randomProxy()
-                session = requests.Session()
-                session.proxies.setdefault('http', 'http://127.0.0.1:9009')
-                session.proxies.update(randomProxies)
-
-                req = session.post(f"https://ngl.link/{username}", data={
-                    "question": message,
-                    "deviceId": generateDeviceID()
-                }, proxies=randomProxies, timeout=3)
-
-                if req.status_code == 200:
-                    print(f"{red}[{white}{logTime()}{red}] {white}Spamming Ke {green}{CHUNK_PARRENT}")
-                    for j in range(12):
-                        reqs = session.post(f"https://ngl.link/{username}", data={
-                            "question": message,
-                            "deviceId": generateDeviceID()
-                        }, proxies=randomProxies, timeout=3)
-                        if reqs.status_code == 200:
-                            print(f"{red}[{white}{logTime()}{red}] {white}Spamming Ke {green}{CHUNK_PARRENT}")
-                            CHUNK_PARRENT += 1
-                        else:
-                            pass
-                else:
-                    print(f"{red}[{white}{logTime()}{red}] {white}Failed with status code {yellow}{req.status_code}")
-            except:
-                pass
+        while True:
+            if CHUNK_PARRENT == total_spam:
+                print(f"{red}[{white}{logTime()}{red}] {white}Done!")
+                break
+            else:
+                try:
+                    randomProxies = randomProxy()
+                    session = requests.Session()
+                    session.proxies.setdefault('http', 'http://127.0.0.1:9009')
+                    session.proxies.update(randomProxies)
+                    req = session.post(f"https://ngl.link/api/submit", data={
+                        "username": username,
+                        "question": message,
+                        "deviceId": generateDeviceID(),
+                        "gameSlug": "",
+                        "referrer": ""
+                    }, proxies=randomProxies, timeout=3)
+                    if req.status_code == 200:
+                        CHUNK_PARRENT += 1
+                        print(f"{red}[{white}{logTime()}{red}] {white}Spamming Ke {green}{CHUNK_PARRENT}")
+                        for j in range(12):
+                            if CHUNK_PARRENT == total_spam:
+                                print(f"{red}[{white}{logTime()}{red}] {white}Done!")
+                                break
+                            else:
+                                reqs = session.post(f"https://ngl.link/api/submit", data={
+                                    "username": username,
+                                    "question": message,
+                                    "deviceId": generateDeviceID(),
+                                    "gameSlug": "",
+                                    "referrer": ""
+                                }, proxies=randomProxies, timeout=3)
+                                if reqs.status_code == 200:
+                                    CHUNK_PARRENT += 1
+                                    print(f"{red}[{white}{logTime()}{red}] {white}Spamming Ke {green}{CHUNK_PARRENT}")
+                                else:
+                                    pass
+                    else:
+                        print(f"{red}[{white}{logTime()}{red}] {white}Failed with status code {yellow}{req.status_code}")
+                except:
+                    pass
 
 def handleProxyList(con, proxy_li, proxy_ty):
     if proxy_ty not in {4, 5, 1, 0, 6}:
