@@ -36,6 +36,7 @@
 		{"type":1, "url": "http://rootjazz.com/proxies/proxies.txt",  "timeout": 5},
 	  	{"type":1, "url": "https://proxyspace.pro/http.txt",  "timeout": 5},
 	  	{"type":1, "url": "https://proxyspace.pro/https.txt",  "timeout": 5},
-		{"type":1, "url": "http://worm.rip/http.txt",  "timeout": 5}
+		{"type":1, "url": "http://worm.rip/http.txt",  "timeout": 5},
+		{"type":1, "url": "https://rcloak.com/api/proxies/raw?protocol=all",  "timeout": 5}
 	]
 }
